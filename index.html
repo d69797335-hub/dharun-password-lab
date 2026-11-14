@@ -1,10 +1,104 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dharun Password Lab</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dharun Password Lab</title>
+<style>
+body {
+  background:#080d18;
+  color:#00ff99;
+  font-family:Arial;
+  text-align:center;
+  padding:25px;
+}
+.container {
+  max-width:600px;
+  margin:auto;
+  background:#111c2c;
+  padding:25px;
+  border-radius:15px;
+}
+input,button {
+  padding:13px;
+  margin:8px;
+  border-radius:8px;
+  border:0;
+}
+input {width:80%; max-width:350px;}
+button {
+  background:#00ff99;
+  color:#00150c;
+  font-weight:bold;
+  cursor:pointer;
+}
+.result {color:white; margin:15px;}
+</style>
 </head>
 <body>
-    <h1>Welcome to Dharun Password Lab!</h1>
-    <p>My first website is now online!</p>
+<div class="container">
+<h1>⚡ DHARUN PASSWORD LAB</h1>
+<p>Welcome to my Cyber Security Lab!</p>
+
+<hr>
+<h2>🔐 Password Strength Checker</h2>
+<input id="pass" type="password" placeholder="Enter a test password">
+<br>
+<button onclick="check()">Check Strength</button>
+<p class="result" id="result">Waiting...</p>
+
+<hr>
+<h2>🎲 Password Generator</h2>
+<button onclick="generate()">Generate Password</button>
+<p class="result" id="generated"></p>
+
+<hr>
+<h2>🧪 Fictional Guessing Simulator</h2>
+<p>Try a built-in demo password. This does not test real accounts.</p>
+<button onclick="simulate()">Start Demo</button>
+<p class="result" id="demo">Ready...</p>
+</div>
+
+<script>
+function check() {
+ let p=document.getElementById("pass").value;
+ let score=0;
+ if(p.length>=8) score++;
+ if(/[A-Z]/.test(p)) score++;
+ if(/[a-z]/.test(p)) score++;
+ if(/[0-9]/.test(p)) score++;
+ if(/[^A-Za-z0-9]/.test(p)) score++;
+ let labels=["Very weak","Weak","Fair","Good","Strong","Very strong"];
+ document.getElementById("result").innerText=
+ p.length ? "Strength: "+labels[score] : "Enter a password first!";
+}
+
+function generate() {
+ let chars="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$";
+ let p="";
+ for(let i=0;i<16;i++)
+ p+=chars[Math.floor(Math.random()*chars.length)];
+ document.getElementById("generated").innerText=p;
+}
+
+function simulate() {
+ let guesses=["hello","password","123456","cyber123","dragon"];
+ let target="cyber123";
+ let i=0;
+ let output=document.getElementById("demo");
+ output.innerText="Starting fictional demo...";
+ let timer=setInterval(()=>{
+  if(i<guesses.length) {
+   output.innerText="Testing: "+guesses[i];
+   if(guesses[i]===target) {
+    output.innerText="Demo successful! Fictional password found: "+target;
+    clearInterval(timer);
+   }
+   i++;
+  } else clearInterval(timer);
+ },700);
+}
+</script>
 </body>
 </html>
